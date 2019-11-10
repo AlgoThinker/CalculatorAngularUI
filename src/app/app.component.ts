@@ -6,5 +6,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'calculator-UI';
+
+  public show: boolean = false;
+  public expr:string = '';
+  
+  
+
+  toggle() {
+   this.show = !this.show;
+ }
+
+ plusClick(expression:string){
+
+ //  if(expression && expression != '' && expression == [0-9]* ){}
+    
+ }
 }
