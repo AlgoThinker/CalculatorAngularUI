@@ -17,10 +17,10 @@ export class AppComponent {
 
   public show: boolean = false;
   public expr: string = '';
-  public result: any = '';
-  public resultExp: any = '';
+  public result: string = '';
+  public resultExp: string = '';
 
- // public equalPressed: boolean = false;
+  // public equalPressed: boolean = false;
 
   toggle() {
     this.show = !this.show;
@@ -41,12 +41,12 @@ export class AppComponent {
   }
 
   pressEqual(expression: string) {
-  //  this.equalPressed = true;
+    //  this.equalPressed = true;
     this.http.post<string>(this.url, expression).subscribe((val) => {
       this.result = val;
     },
       response => {
-        this.result = "Invalid Input";
+        //  this.result = 'Invalid Input';
         console.log("POST call in error", response);
       },
       () => {
@@ -55,18 +55,58 @@ export class AppComponent {
   }
 
   pressPlus(expression: string) {
+    this.http.post<string>(this.url, expression).subscribe((val) => {
+      this.result = val+'+';
+    },
+      response => {
+        //  this.result = 'Invalid Input';
+        console.log("POST call in error", response);
+      },
+      () => {
+        console.log("The POST observable is now completed.");
+      });
 
-  //   let term = "sample1";
-  //   let re = new RegExp("^([a-z0-9]{5,})$");
-  //   if (re.test(term)) {
-  //       console.log("Valid");
-  //   } else {
-  //       console.log("Invalid");
-  //   }
-  //   if(expression)
+  }
 
-  //   //  if(expression && expression != '' && expression == [0-9]* ){}
+  pressMinus(expression: string) {
+    this.http.post<string>(this.url, expression).subscribe((val) => {
+      this.result = val+'-';
+    },
+      response => {
+        //  this.result = 'Invalid Input';
+        console.log("POST call in error", response);
+      },
+      () => {
+        console.log("The POST observable is now completed.");
+      });
 
-  // }
+  }
+
+  pressMultiply(expression: string) {
+    this.http.post<string>(this.url, expression).subscribe((val) => {
+      this.result = val+'*';
+    },
+      response => {
+        //  this.result = 'Invalid Input';
+        console.log("POST call in error", response);
+      },
+      () => {
+        console.log("The POST observable is now completed.");
+      });
+
+  }
+
+  pressDivide(expression: string) {
+    this.http.post<string>(this.url, expression).subscribe((val) => {
+      this.result = val+'/';
+    },
+      response => {
+        //  this.result = 'Invalid Input';
+        console.log("POST call in error", response);
+      },
+      () => {
+        console.log("The POST observable is now completed.");
+      });
+
   }
 }
