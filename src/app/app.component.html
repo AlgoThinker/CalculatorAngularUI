@@ -2,7 +2,7 @@
 
 	<form name="calculator" *ngIf="!show">
 
-		<input type="text" name="answer" #name/>
+		<input type="text" [(ngModel)]='result' name="answer" #name/>
 
 		<input type="button" value=" C " onclick="calculator.answer.value = ''" />
 		<input type="button" value=" S " onclick="calculator.answer.value = eval(0-calculator.answer.value)" />
@@ -24,24 +24,27 @@
 		<input type="button" value=" 1 " onclick="calculator.answer.value += '1'" />
 		<input type="button" value=" 2 " onclick="calculator.answer.value += '2'" />
 		<input type="button" value=" 3 " onclick="calculator.answer.value += '3'" />
-		<input type="button" value=" + " (click)= "plusClick(name.value)" />
+		<input type="button" value=" + " (click)="plusClick(name.value)" />
 
 		<input type="button" value=" 0 " onclick="calculator.answer.value += '0'" />
 		<input type="button" value=" . " onclick="calculator.answer.value += '.'" />
 
-		<input type="button" value=" = " onclick="calculator.answer.value = eval(calculator.answer.value)" />
-    
-  </form>
+	<!-- <input type="button" value=" = " onclick="calculator.answer.value = eval(calculator.answer.value)" /> -->
 
-	<form name="calculator" *ngIf="show">
-    <div>
-		<input type="text" name="answer" />
-		<input style = "width : 23%" type="button" value="Submit" onclick="calculator.answer.value = eval(calculator.answer.value)" />
-    </div>
-  </form>
+		<input type="button" value=" = " (click)="getResult(name.value)" />
+
+	</form>
+
+	<form name="calculatorExp" *ngIf="show">
+		<div>
+			<input type="text" [(ngModel)]='resultExp' name="answerExp" #nameExp />
+			<input style="width : 23%" type="button" value="Submit" (click)="getResultExp(nameExp.value)"
+			/>
+		</div>
+	</form>
 
 	<input type="button" value="Mode " (click)="toggle()" />
 
-  <span>{{expr}}</span>
+	<span>{{result}}</span>
 
 </div>
