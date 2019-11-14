@@ -22,6 +22,11 @@ export class AppComponent {
   public result: string = '';
   public resultExp: string = '';
   public re = /[0-9]\.{0,1}[0-9]{0,}[\+\-\*\/][0-9]\.{0,1}[0-9]{0,}/;
+  //public reNegative = /[0-9]{1,}[\-]{1,1}[0-9]\.{0,1}[0-9]{0,}/;
+  
+ // public checkRe = /[\+\-\*\/\(\s]{1,}[\-]{1,1}[0-9]\.{0,1}[0-9]{0,}/;
+
+  public checkRe =  /[\+\-\*\/\(\s]{1,}[\-]{1,1}[0-9]{1,}\.{0,1}[0-9]{0,}/;
 
 
   // public equalPressed: boolean = false;
@@ -31,7 +36,34 @@ export class AppComponent {
   }
 
   //method for UI Mode 2 with full expression
-  getResultExp(expression: string) {
+
+
+  preProcessStr(expre:string): string{
+
+    let temp = expre.replace(/ /,'');
+    let temporary = ' '+temp;
+
+    let expression = temporary.replace(this.checkRe, function (x) {
+    //  let someStr = x.charAt(0) + '(0-' + x.substr(2,) + ')';
+    let reNegativeNumber = /[\-]{1,1}[0-9]{1,}\.{0,1}[0-9]{0,}/;
+      let someStr = x.replace(reNegativeNumber, function(y){
+        return '(0-'+y.substr(1,)+')';
+      });
+      return someStr;
+    });
+
+    return expression;
+  
+  }
+
+  getResultExp(expre: string) {
+
+    // let expression.match(/[\-]{1,1}[0-9]\.{0,1}[0-9]{0,}/g);
+
+    // str.replace(/blue/g, "red");
+
+    let expression = this.preProcessStr(expre);
+
     this.http.post<string>(this.url, expression).subscribe((val) => {
       this.resultExp = val;
     },
@@ -44,8 +76,10 @@ export class AppComponent {
       });
   }
 
-  pressEqual(expression: string) {
+  pressEqual(expre: string) {
     //  this.equalPressed = true;
+
+    let expression = this.preProcessStr(expre);
     this.http.post<string>(this.url, expression).subscribe((val) => {
       this.result = val;
     },
@@ -58,7 +92,9 @@ export class AppComponent {
       });
   }
 
-  pressPlus(expression: string) {
+  pressPlus(expre: string) {
+
+    let expression = this.preProcessStr(expre);
 
     if (this.re.test(expression)) {
       this.http.post<string>(this.url, expression).subscribe((val) => {
@@ -79,7 +115,9 @@ export class AppComponent {
 
   }
 
-  pressMinus(expression: string) {
+  pressMinus(expre: string) {
+
+    let expression = this.preProcessStr(expre);
 
     if (this.re.test(expression)) {
       this.http.post<string>(this.url, expression).subscribe((val) => {
@@ -98,7 +136,9 @@ export class AppComponent {
 
   }
 
-  pressMultiply(expression: string) {
+  pressMultiply(expre: string) {
+
+    let expression = this.preProcessStr(expre);
 
     if (this.re.test(expression)) {
       this.http.post<string>(this.url, expression).subscribe((val) => {
@@ -117,7 +157,10 @@ export class AppComponent {
 
   }
 
-  pressDivide(expression: string) {
+  pressDivide(expre: string) {
+
+    let expression = this.preProcessStr(expre);
+
     if (this.re.test(expression)) {
       this.http.post<string>(this.url, expression).subscribe((val) => {
         this.result = val + '/';
